@@ -23,25 +23,42 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _userManger.FindByEmailAsync(loginDto.Email);
+                // refactor this setion
+                var fieldErrors = ModelState.Keys.SelectMany(key =>
+                {
+                    var errorMessages = ModelState[key].Errors.Select(e => new FieldError(key, e.ErrorMessage)).ToList();
+                    return errorMessages;
+                }).ToList();
 
-                if (user != null)
-                {
-                    if (await _userManger.CheckPasswordAsync(user, loginDto.Password))
-                        return Ok();
-                    else
-                        return Unauthorized();
-                }
-                else
-                {
-                    ModelState.AddModelError("", "User Name is inviled");
-                }
+                return BadRequest(ApiResponse<object>.Error("Model validation failed", 400, fieldErrors));
             }
 
-            return BadRequest(ModelState);
+            var user = await _userManger.FindByEmailAsync(loginDto.Email);
+
+            if (user == null)
+            {
+                return BadRequest(ApiResponse<object>.Error("User not found", 400));
+            }
+
+            var isPasswordValid = await _userManger.CheckPasswordAsync(user, loginDto.Password);
+
+            if (!isPasswordValid)
+            {
+                return Unauthorized(ApiResponse<object>.Error("Invalid password", 401));
+            }
+
+            var userResponse = new UserResponse
+            {
+                Id = user.Email,
+                Email = user.Email,
+            };
+
+            return Ok(ApiResponse<UserResponse>.Success(userResponse, "User login success"));
         }
+
+
 
 
         [HttpPost("[action]")]
@@ -70,7 +87,6 @@ namespace SmartNeighborhoodAPI.Controllers
             if (!result.Succeeded)
                 return BadRequest();
 
-            // Return User Information
             UserDto userDto = new()
             {
                 DisplayName = registerDto.UserName,
