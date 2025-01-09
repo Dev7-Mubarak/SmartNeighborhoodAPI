@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SmartNeighborhoodAPI;
-using SmartNeighborhoodAPI.Entities;
+
 using SmartNeighborhoodAPI.Interfaces;
 using SmartNeighborhoodAPI.Repositries;
 
@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IBaseRepository<BaseEntity>, BaseRepository<BaseEntity>>();
+//builder.Services.AddScoped<IBaseRepository<BaseEntity>, BaseRepository<BaseEntity>>();
 
 var app = builder.Build();
 

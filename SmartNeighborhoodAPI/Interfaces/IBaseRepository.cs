@@ -8,7 +8,13 @@ namespace SmartNeighborhoodAPI.Interfaces
         Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
 
         Task<int> AddAsync(T entity);
+        IEnumerable<T> AddRange(IEnumerable<T> Entities);
         Task<int> UpdateAsync(T entity);
+        IEnumerable<T> UpdateRange(IEnumerable<T> Entities);
         Task<int> DeleteAsync(int Id);
+        Task <int> DeleteRange(IEnumerable<T> Entities);
+        Task <int>Count();
+        Task< int> Count(Expression<Func<T, bool>> Cirtira);
+        Task<int> Sum();
     }
 }
