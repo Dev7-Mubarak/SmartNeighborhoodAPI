@@ -23,25 +23,33 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _userManger.FindByEmailAsync(loginDto.Email);
-
-                if (user != null)
-                {
-                    if (await _userManger.CheckPasswordAsync(user, loginDto.Password))
-                        return Ok();
-                    else
-                        return Unauthorized();
-                }
-                else
-                {
-                    ModelState.AddModelError("", "User Name is inviled");
-                }
+                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
             }
 
-            return BadRequest(ModelState);
+            var user = await _userManger.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+            {
+                return NotFound(ApiResponse<string>.Error(404, "User Not Found"));
+            }
+
+            var isPasswordValid = await _userManger.CheckPasswordAsync(user, loginDto.Password);
+            if (!isPasswordValid)
+            {
+                return Unauthorized(ApiResponse<string>.Error(401, "Unauthorized"));
+            }
+
+            var userResponse = new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email
+            };
+
+            return Ok(ApiResponse<UserResponse>.Success(userResponse, "User login successfully"));
         }
+
+
 
 
         [HttpPost("[action]")]
@@ -70,7 +78,6 @@ namespace SmartNeighborhoodAPI.Controllers
             if (!result.Succeeded)
                 return BadRequest();
 
-            // Return User Information
             UserDto userDto = new()
             {
                 DisplayName = registerDto.UserName,
