@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartNeighborhoodAPI;
 
@@ -11,9 +12,10 @@ using SmartNeighborhoodAPI;
 namespace SmartNeighborhoodAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250109104243_AmmarTables")]
+    partial class AmmarTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,22 +53,22 @@ namespace SmartNeighborhoodAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c4d5d364-3754-4cd9-88b7-745c4cf92e59",
-                            ConcurrencyStamp = "ec494e70-bff4-421c-af5a-ea3ea8009e8a",
+                            Id = "dbeed243-d2e2-4133-82d1-9da0f61934be",
+                            ConcurrencyStamp = "801b827b-4f86-42b0-95cc-7b2bf814a5b6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1069e95f-4c0c-4b76-bbf2-59991a613882",
-                            ConcurrencyStamp = "faf33d13-7c0b-4acd-8439-8e1f2a850685",
+                            Id = "623ea2a9-1df8-4b37-8bc2-1e9fe6fb9e8d",
+                            ConcurrencyStamp = "800f93b2-e7ff-41b1-861f-d04277425ebf",
                             Name = "BlockManager",
                             NormalizedName = "BLOCKMANAGER"
                         },
                         new
                         {
-                            Id = "93375850-adcc-43ef-8308-c80694d32357",
-                            ConcurrencyStamp = "39e0751a-48fc-4bd2-a9c4-d972035f62a2",
+                            Id = "bee62820-f815-46fa-b0c5-25b1f32cee53",
+                            ConcurrencyStamp = "3e041771-4f25-465f-b6a8-19a13edf203d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -164,17 +166,17 @@ namespace SmartNeighborhoodAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9dc97b73-41d3-4678-bd75-23069b0e263c",
+                            Id = "b24eb599-97bf-4836-a4d3-9cd8dba0d59a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f27bb203-3dc3-443a-8460-768033287b8f",
+                            ConcurrencyStamp = "422f5cfd-36fd-43be-b8d3-fbadbd3d4a03",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECZsYWTI6wfFvFBcOS21PjmM0fEbAbU9WZgqAHUuyVZmR5TQUsoE2MPRlbIR4OtJZg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEzLNvvykaDZq1ZNW/fY9cCKwZ0M4cVP5XnXmpswZ4nFiyBGmMs0dHy8plGoZgbcEA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6f1463a-03d7-4d3e-ba6e-c1ea9c0ddf95",
+                            SecurityStamp = "e48500da-4adf-4ce9-b5e1-8dd1981d35a4",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -244,8 +246,8 @@ namespace SmartNeighborhoodAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "9dc97b73-41d3-4678-bd75-23069b0e263c",
-                            RoleId = "c4d5d364-3754-4cd9-88b7-745c4cf92e59"
+                            UserId = "b24eb599-97bf-4836-a4d3-9cd8dba0d59a",
+                            RoleId = "dbeed243-d2e2-4133-82d1-9da0f61934be"
                         });
                 });
 
