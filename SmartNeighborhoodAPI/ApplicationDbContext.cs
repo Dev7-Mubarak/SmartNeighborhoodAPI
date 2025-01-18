@@ -14,27 +14,7 @@ namespace SmartNeighborhoodAPI
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
-            new AdEntityTypeConfiguration().Configure(builder.Entity<Ad>());
-            new BlockEntityTypeConfiguration().Configure(builder.Entity<Block>());
-            new ComplainEntityTypeConfiguration().Configure(builder.Entity<Complain>());
-            new ComplainTypeEntityTypeConfiguration().Configure(builder.Entity<ComplainType>());
-            new ConfilctPartyEntityTypeConfiguration().Configure(builder.Entity<ConfilctParty>());
-            new ContactInfoEntityTypeConfiguration().Configure(builder.Entity<ContactInfo>());
-            new FamilyCatgoryEntityTypeConfiguration().Configure(builder.Entity<FamilyCatgory>());
-            new FamilyEntityTypeConfiguration().Configure(builder.Entity<Family>());
-            new FamilyTypeEntityTypeConfiguration().Configure(builder.Entity<FamilyType>());
-            new GroupEntityTypeConfiguration().Configure(builder.Entity<Group>());
-            new MemberTypeEntityTypeConfiguration().Configure(builder.Entity<MemberType>());
-            new PersonComplainEntityTypeConfiguration().Configure(builder.Entity<PersonComplain>());
-            new PersonEntityTypeConfiguration().Configure(builder.Entity<Person>());
-            new ProjectCatgoryEntityTypeConfiguration().Configure(builder.Entity<ProjectCatogory>());
-            new ProjectEntityTypeConfiguration().Configure(builder.Entity<Project>());
-            new ProjectFamilyEntityTypeConfiguration().Configure(builder.Entity<ProjectFamily>());
-            new RoleEntityTypeConfiguration().Configure(builder.Entity<Role>());
-            new TeamEntityTypeConfiguration().Configure(builder.Entity<Team>());
-            new TeamMemberEntityTypeConfiguration().Configure(builder.Entity<TeamMember>());
-            new UserEntityTypeConfiguration().Configure(builder.Entity<User>());
+           
 
             var adminRoleId = Guid.NewGuid().ToString();
 
@@ -87,6 +67,5 @@ namespace SmartNeighborhoodAPI
         DbSet<Role> Roles { get; set; }
         DbSet<Team> Teams { get; set; }
         DbSet<TeamMember> TeamMembers { get; set; }
-        DbSet<User> Users { get; set; }
     }
 }

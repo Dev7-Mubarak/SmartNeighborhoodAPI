@@ -12,8 +12,8 @@ using SmartNeighborhoodAPI;
 namespace SmartNeighborhoodAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250107152808_Seed-Users-And-Roles")]
-    partial class SeedUsersAndRoles
+    [Migration("20250113170852_SmartNeiborhood")]
+    partial class SmartNeiborhood
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace SmartNeighborhoodAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b90cd34f-8f7c-47a5-a5f1-2d4e6bfbf634",
-                            ConcurrencyStamp = "9012967e-95ff-4a02-b221-ebe8115c3e50",
+                            Id = "a75dcfb6-f582-4950-bd42-4b2bc9b02a8e",
+                            ConcurrencyStamp = "b24828fe-4a54-4e93-9172-240a30e24bac",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b0076ca1-efbc-4cc2-8bc6-cac8cb67d14b",
-                            ConcurrencyStamp = "35b2eb49-99cd-43da-973c-766e53e0438d",
+                            Id = "2fccb796-01c4-4031-b4ec-7914e835945a",
+                            ConcurrencyStamp = "49dbcf76-adf9-4753-8aa5-369ef8c6e178",
                             Name = "BlockManager",
                             NormalizedName = "BLOCKMANAGER"
                         },
                         new
                         {
-                            Id = "07174f83-736d-42a1-90c0-fdbf8f253b39",
-                            ConcurrencyStamp = "0c0df423-d27d-40ba-9485-db12f82ceacc",
+                            Id = "59a2dd59-b4ef-4a90-b96f-70554c7fed78",
+                            ConcurrencyStamp = "dc58d661-a73d-4e18-bb8b-3950daca366c",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -166,17 +166,17 @@ namespace SmartNeighborhoodAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e71ceede-7b13-4434-a242-a6f5044013f3",
+                            Id = "cd676a36-4de1-414d-9d17-e75e9d85dafa",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5d98dd6-36ee-4696-a158-17228e8e689c",
+                            ConcurrencyStamp = "e50c6bdd-c2c9-4ae0-a95d-8fb2959bd07b",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMGYEjGpaTnWlZY26oOlpllvSIFkWx2saPQk/4d/tQf/UjkRf6QuYjfWyJK0IG2uNg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECy19upLXf8qT93bvK0eaptPYkE7qz4/oY9G5/3JcVT3S2AFTBA4iJvnqCJmizYjKQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8fd5e760-cff5-40ca-9e49-6e2d93d3bccb",
+                            SecurityStamp = "7bbbf863-b746-49fa-abb4-2055c1537fa8",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -246,8 +246,8 @@ namespace SmartNeighborhoodAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "e71ceede-7b13-4434-a242-a6f5044013f3",
-                            RoleId = "b90cd34f-8f7c-47a5-a5f1-2d4e6bfbf634"
+                            UserId = "cd676a36-4de1-414d-9d17-e75e9d85dafa",
+                            RoleId = "a75dcfb6-f582-4950-bd42-4b2bc9b02a8e"
                         });
                 });
 
