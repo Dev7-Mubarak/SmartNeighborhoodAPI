@@ -7,5 +7,11 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class ProjectFamilesController : ControllerBase
     {
+        protected IBaseRepository<ProjectFamily> _context;
+
+        public ProjectFamilesController(IBaseRepository<ProjectFamily> context)
+        {
+            _context = context;
+        }
     }
 }

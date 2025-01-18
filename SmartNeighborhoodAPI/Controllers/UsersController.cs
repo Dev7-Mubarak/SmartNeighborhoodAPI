@@ -7,5 +7,6 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+       
     }
 }

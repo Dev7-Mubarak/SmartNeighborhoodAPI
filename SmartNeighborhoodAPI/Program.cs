@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SmartNeighborhoodAPI;
 
+using Microsoft.AspNetCore.Identity;
 using SmartNeighborhoodAPI.Interfaces;
 using SmartNeighborhoodAPI.Repositries;
 
@@ -20,8 +17,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IAdRepository<Ad>, AdRepository>();
 
 var app = builder.Build();
 
