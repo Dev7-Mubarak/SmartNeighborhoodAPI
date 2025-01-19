@@ -7,5 +7,11 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class ConfilctPartyController : ControllerBase
     {
+        protected IBaseRepository<ConfilctParty> _context;
+
+        public ConfilctPartyController(IBaseRepository<ConfilctParty> context)
+        {
+            _context = context;
+        }
     }
 }

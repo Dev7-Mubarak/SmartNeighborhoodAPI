@@ -10,6 +10,6 @@
         public Family Family { get; set; }
         public int BlockId { get; set; }
         public Block Block { get; set; }
-        public string ProjectScope { get; set; }
+   
     }
 }

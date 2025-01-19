@@ -7,5 +7,11 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class BlocksController : ControllerBase
     {
+        protected IBaseRepository<Block> _context;
+
+        public BlocksController(IBaseRepository<Block> context)
+        {
+            _context = context;
+        }
     }
 }

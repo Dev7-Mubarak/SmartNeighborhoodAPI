@@ -5,3 +5,4 @@ global using OurProjectSmartNeiborhood.Configuration;
 global using SmartNeighborhoodAPI.Interfaces;
 global using System.Linq.Expressions;
 global using SmartNeighborhoodAPI;
+global using AutoMapper;

@@ -7,5 +7,11 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class PersonComplainsController : ControllerBase
     {
+        protected IBaseRepository<PersonComplain> _context;
+
+        public PersonComplainsController(IBaseRepository<PersonComplain> context)
+        {
+            _context = context;
+        }
     }
 }

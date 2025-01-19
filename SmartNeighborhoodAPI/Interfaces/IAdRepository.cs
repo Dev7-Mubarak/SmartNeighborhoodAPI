@@ -1,6 +1,6 @@
 ﻿namespace SmartNeighborhoodAPI.Interfaces
 {
-    public interface IAdRepository
+    public interface IAdRepository<T>: IBaseRepository<T>
     {
     }
 }
