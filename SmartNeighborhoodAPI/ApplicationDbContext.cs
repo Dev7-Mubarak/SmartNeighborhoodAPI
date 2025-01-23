@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using SmartNeighborhoodAPI.Entites;
 
 
 namespace SmartNeighborhoodAPI
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -14,58 +14,45 @@ namespace SmartNeighborhoodAPI
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-           
 
-            var adminRoleId = Guid.NewGuid().ToString();
 
-            builder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Id = adminRoleId, Name = "Admin", NormalizedName = "ADMIN" },
-                new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "BlockManager", NormalizedName = "BLOCKMANAGER" },
-                new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "User", NormalizedName = "USER" }
-            );
+            //var adminRoleId = Guid.NewGuid().ToString();
 
-            var adminUserId = Guid.NewGuid().ToString();
+            //builder.Entity<IdentityRole>().HasData(
+            //    new IdentityRole { Id = adminRoleId, Name = "Admin", NormalizedName = "ADMIN" },
+            //    new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "BlockManager", NormalizedName = "BLOCKMANAGER" },
+            //    new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "User", NormalizedName = "USER" }
+            //);
 
-            var adminUser = new IdentityUser
-            {
-                Id = adminUserId,
-                UserName = "Admin",
-                NormalizedUserName = "ADMIN",
-                Email = "admin@example.com",
-                NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                EmailConfirmed = true,
-                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Admin@123")
-            };
+            //var adminUserId = Guid.NewGuid().ToString();
 
-            builder.Entity<IdentityUser>().HasData(adminUser);
+            //var adminUser = new IdentityUser
+            //{
+            //    Id = adminUserId,
+            //    UserName = "Admin",
+            //    NormalizedUserName = "ADMIN",
+            //    Email = "admin@example.com",
+            //    NormalizedEmail = "ADMIN@EXAMPLE.COM",
+            //    EmailConfirmed = true,
+            //    PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "Admin@123")
+            //};
 
-            builder.Entity<IdentityUserRole<string>>().HasData(
-                new IdentityUserRole<string>
-                {
-                    UserId = adminUserId,
-                    RoleId = adminRoleId
-                }
-            );
+            //builder.Entity<IdentityUser>().HasData(adminUser);
+
+            //builder.Entity<IdentityUserRole<string>>().HasData(
+            //    new IdentityUserRole<string>
+            //    {
+            //        UserId = adminUserId,
+            //        RoleId = adminRoleId
+            //    }
+            //);
         }
-        DbSet<Ad> Ads { get; set; }
-
-        DbSet<Block> Blocks { get; set; }
-        DbSet<Complain> Complains { get; set; }
-        DbSet<ComplainType> ComplainTypes { get; set; }
-        DbSet<ConfilctParty> ConfilctParties { get; set; }
-        DbSet<ContactInfo> ContactInfos { get; set; }
-        DbSet<Family> Families { get; set; }
-        DbSet<FamilyCatgory> FamilyCatgories { get; set; }
-        DbSet<FamilyMember> FamilyMembers { get; set; }
-        DbSet<Group> Groups { get; set; }
-        DbSet<MemberType> MemberTypes { get; set; }
-        DbSet<Person> People { get; set; }
-        DbSet<PersonComplain> PersonComplains { get; set; }
-        DbSet<Project> Projects { get; set; }
-        DbSet<ProjectCatogory> ProjectCatogories { get; set; }
-        DbSet<ProjectFamily> ProjectFamilies { get; set; }
-        DbSet<Role> Roles { get; set; }
-        DbSet<Team> Teams { get; set; }
-        DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<Block> Blocks { get; set; }
+        public DbSet<ContactInfo> ContactInfos { get; set; }
+        public DbSet<Family> Families { get; set; }
+        public DbSet<FamilyCatgory> FamilyCatgories { get; set; }
+        public DbSet<FamilyMember> FamilyMembers { get; set; }
+        public DbSet<MemberType> MemberTypes { get; set; }
+        public DbSet<Person> People { get; set; }
     }
 }

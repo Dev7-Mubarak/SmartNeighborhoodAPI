@@ -1,7 +1,8 @@
 
 using Microsoft.AspNetCore.Identity;
-using SmartNeighborhoodAPI.Interfaces;
-using SmartNeighborhoodAPI.Repositries;
+using Microsoft.AspNetCore.Mvc;
+using SmartNeighborhoodAPI.Helpers;
+using SmartNeighborhoodAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +15,19 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+    options.SuppressModelStateInvalidFilter = true);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddScoped<IAdRepository<Ad>, AdRepository>();
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
