@@ -3,7 +3,7 @@
     public class ContactInfo
     {
         public int Id { get; set; }
-      
+
         public string PhontNumber { get; set; }
         public bool IsPhoneNumber { get; set; }
         public bool IsWhatsappNumber { get; set; }
