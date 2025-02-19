@@ -7,6 +7,8 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        protected IBaseRepository<User>
        
     }
+     
 }

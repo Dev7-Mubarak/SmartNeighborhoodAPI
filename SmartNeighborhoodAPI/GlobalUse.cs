@@ -6,3 +6,8 @@ global using SmartNeighborhoodAPI.Interfaces;
 global using System.Linq.Expressions;
 global using SmartNeighborhoodAPI;
 global using AutoMapper;
+global using SmartNeighborhoodAPI.Helpers.DTOs;
+global using SmartNeighborhoodAPI.Helpers;
+global using System.ComponentModel.DataAnnotations;
+global using  Microsoft.AspNetCore.Mvc; 
+global using Microsoft.AspNetCore.Http;
