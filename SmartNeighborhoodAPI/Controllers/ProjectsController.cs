@@ -7,74 +7,68 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class ProjectsController : ControllerBase
     {
-        protected IBaseRepository<Project> _ProjectRepository;
 
-        private readonly IMapper _mapper
-        public ProjectsController(IBaseRepository<Project> ProjectRepository,IMapper mapper)
+        private readonly ProjectServices _projectServices;
+        public ProjectsController(IBaseRepository<Project> ProjectRepository, IMapper mapper, ProjectServices projectServices)
         {
-            _ProjectRepository = ProjectRepository;
-            _mapper=mapper;
+
+            _projectServices = projectServices;
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult>AddAsync(ProjectDto projectDto)
+        public async Task<IActionResult> AddAsync(ProjectDto projectDto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-            var Project=_mapper.Map<Project>(projectDto);
-            var result=await _ProjectRepository.AddAsync(Project);
-            if(result<=0)
-                return BadRequest(ApiResponse<string>.Error(500,"Failed To Add Project"));
-            return Ok(ApiResponse<Project>.Success(Project));
+
+            var reulte = await  _projectServices.AddAsync(projectDto); 
+            if(reulte.IsSuccess)
+                return Ok(reulte);
+
+            return BadRequest(reulte);
+            //var Project = _mapper.Map<Project>(projectDto);
+            //var result = await _ProjectRepository.AddAsync(Project);
+            //if (result <= 0)
+            //    return BadRequest(ApiResponse<string>.Error(500, "Failed To Add Project"));
+            //return Ok(ApiResponse<Project>.Success(Project));
         }
         [HttpGet("[action]")]
-        public async Task<IActionResult>GetAllAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var Projects=await _ProjectRepository.GetAll().ToListAsync();
-            var ProjectsDto=_mapper.Map<List<ProjectDto>>(Projects);
+            var result = await _projectServices.GetAllAsync();
+            if (result.IsSuccess)
+                return Ok(result);
 
-            return Ok(ApiResponse<ProjectDto>.Success(Projects));
+            return BadRequest(result);
         }
         [HttpGet("[action]/{id:int}")]
-        public async Task<IActionResult>GetByIdAsync(int id,ProjectDto projectDto)
+        public async Task<IActionResult> GetByIdAsync(int id, ProjectDto projectDto)
         {
-            var Project=await _ProjectRepository.GetByIdAsync(id);
-            if(Project is null)
-                return NotFoud(404,ApiResponse<string>.Error("Project Not Found");
-            var ProjectDto=_mapper.Map<Project>(projectDto);
+            var result=await _projectServices.GetByIdAsync(id, projectDto);
+            if(result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
 
-            return Ok(ApiResponse<ProjectDto>.Success(ProjectDto);
+            
         }
         [HttpPut("[action]/{id:int}")]
-        public async Task<IActionResult>UpdateAsync(int id,ProjectDto projectDto)
+        public async Task<IActionResult> UpdateAsync(int id, ProjectDto projectDto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
-            var ExistsProject=await _ProjectRepository.GetByIdAsync(id);
-            if(ExistsProject is null)
-                return NotFound(404,ApiResponse<string>.Error("Project Not Found"));
-
-            var ProjectDto=_mapper.Map(projectDto,ExistsProject);
-
-            var result=await _ProjectRepository.UpdateAsync(ProjectDto);
-            if(result<=0)
-                return BadRequest(500,ApiResponse<string>.Error("Failed To Update Project");
-
-            return Ok(ApiResponse<Project>.Success(ProjectDto));
+            var result= await _projectServices.UpdateAsync(id,projectDto);
+            if(result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
         }
         [HttpDelete("[action]/{id:int}")]
-        public async Task<IActionResult>DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            var Project =await _ProjectRepository.GetByIdAsync(id);
+            
 
-            if(Project is null)
-                return NotFound(404,ApiResponse<string>.Error("Project Not Found"));
-
-            var result=await _ProjectRepository.DeleteAsync(Project);
-            if(result<=0)
-                return BadRequest(500,ApiResponse<string>.Error("Failed To Delete Project"));
-
-            return Ok(ApiResponse<string>.Success("Project Deleted Succesfully"));
+            var result= await _projectServices.DeleteAsync(id);
+            if(result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }

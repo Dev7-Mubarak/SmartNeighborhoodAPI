@@ -1,4 +1,5 @@
-﻿namespace SmartNeighborhoodAPI.Repositories
+﻿
+namespace SmartNeighborhoodAPI.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
@@ -52,5 +53,6 @@
             return await _context.SaveChangesAsync();
         }
 
+       
     }
 }

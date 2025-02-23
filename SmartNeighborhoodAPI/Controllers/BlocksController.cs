@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SmartNeighborhoodAPI.Services;
 
 
 namespace SmartNeighborhoodAPI.Controllers
@@ -8,46 +9,45 @@ namespace SmartNeighborhoodAPI.Controllers
     [ApiController]
     public class BlocksController : ControllerBase
     {
-        protected IBaseRepository<Block> _BlockRepsitory;
-        private readonly IMapper _mapper;
-        public BlocksController(IBaseRepository<Block> BlockRepsitory,IMapper mapper)
+       
+        readonly BlockServices _blockRepsitory;
+
+        public BlocksController(BlockServices blockRepsitory)
         {
-            _BlockRepsitory = BlockRepsitory;
-            _mapper = mapper;
+            _blockRepsitory = blockRepsitory;
         }
+
         [HttpPost("action")]
         public async Task<IActionResult>AddAsync(BlockDto blockDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
+                 
+            var resulte = await _blockRepsitory.AddAsync(blockDto);
+            if (resulte.IsSuccess)
+                return Ok(resulte);
 
-            var block = _mapper.Map<BlockDto>(blockDto);
 
-            var result = await _BlockRepsitory.AddAsync(block);
-            if (result <= 0)
-                return BadRequest(ApiResponse<string>.Error(500, "Faild To Add Block"));
-            return Ok(ApiResponse<Block>.Success(block));
+            return BadRequest(resulte);
+          
         }
         [HttpGet("[action]")]
         public async Task<IActionResult>GetAllAsync()
         {
-            var Blocks =await  _BlockRepsitory.GetAll().ToListAsync();
+            var resulte = await _blockRepsitory.GetAll();
+            if (resulte.IsSuccess)
+                return Ok(resulte);
 
-            var BlockDtos = _mapper.Map<List<BlockDto>>(Blocks);
-            return Ok(ApiResponse<List<BlockDto>>.Success(BlockDtos));
-
-
+            return BadRequest(resulte);
         }
         [HttpGet("[action]/{id:int}")]
         public async Task<IActionResult>GetByIdAsync(int id)
         {
-            var Block = await _BlockRepsitory.GetByIdAsync(id);
-            if (Block is null)
-                return NotFound(ApiResponse<string>.Error(500,"Block Not Found"));
+            var resulte = await _blockRepsitory.GetByIdAsync(id);
+            if (resulte.IsSuccess)
+                return Ok(resulte);
 
-            var BlockDto = _mapper.Map<BlockDto>(Block);
-
-            return Ok(ApiResponse<BlockDto>.Success(BlockDto));
+            return BadRequest(resulte);
 
         }
         [HttpPut("[action]/{id:int}")]
@@ -56,30 +56,21 @@ namespace SmartNeighborhoodAPI.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
 
-            var ExsitBlock = await _BlockRepsitory.GetByIdAsync(id);
+            var resulte = await _blockRepsitory.UpdateAsync(id, blockDto);
+            if (resulte.IsSuccess)
+                return Ok(resulte);
 
-            if (ExsitBlock is null)
-                return NotFound(ApiResponse<string>.Error(404, "Block Not Found"));
-            var UpdateBlock = _mapper.Map(blockDto,ExsitBlock);
-
-            var result =await  _BlockRepsitory.UpdateAsync(UpdateBlock);
-            if (result <= 0)
-                return BadRequest(ApiResponse<string>.Error(500, "Faild To Update Block"));
-            return Ok(ApiResponse<Block>.Success(UpdateBlock));
+            return BadRequest(resulte);
         }
 
         [HttpDelete("[action]{id:int}")]
         public async Task<IActionResult>DeleteAsync(int id)
         {
-            var Block =await  _BlockRepsitory.GetByIdAsync(id);
+            var resulte = await _blockRepsitory.DeleteAsync(id);
+            if (resulte.IsSuccess)
+                return Ok(resulte);
 
-            if (Block is null)
-                return NotFound(ApiResponse<string>.Error(404, "Block Not Found"));
-
-            var result = await _BlockRepsitory.DeleteAsync(Block);
-            if (result <= 0)
-                return BadRequest(ApiResponse<string>.Error(500, "Faild To Delete the Block"));
-            return Ok(ApiResponse<string>.Success("Block Deleted Successfully."));
+            return BadRequest(resulte);
         }
     }
 
