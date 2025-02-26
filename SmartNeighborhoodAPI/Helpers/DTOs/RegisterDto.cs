@@ -9,7 +9,7 @@
         [MaxLength(40)]
         public string Password { get; set; }
         [Required(ErrorMessage ="Name is reqired")]
-        [EmailAddress(40)]
+        [EmailAddress]
         public string Email { get; set; }
         [Required(ErrorMessage ="Age is required")]
         public byte Age { get; set; }

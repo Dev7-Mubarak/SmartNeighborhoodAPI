@@ -3,7 +3,7 @@
     public class ConfilctPartyDto
     {
         [Required]
-        [maxlength(30)]
+        [MaxLength(30)]
         public string Name { get; set; }
     }
 }

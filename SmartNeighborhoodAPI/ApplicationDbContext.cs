@@ -54,5 +54,6 @@ namespace SmartNeighborhoodAPI
         public DbSet<FamilyMember> FamilyMembers { get; set; }
         public DbSet<MemberType> MemberTypes { get; set; }
         public DbSet<Person> People { get; set; }
+        public DbSet<Project> Projects { get; set; }
     }
 }
