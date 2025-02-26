@@ -8,3 +8,4 @@
         public const int MaxFileSizeInBytes = MaxFileSizeInMB * 1024 * 1024;
     }
 }
+

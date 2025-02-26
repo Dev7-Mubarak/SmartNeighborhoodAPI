@@ -39,36 +39,36 @@ namespace SmartNeighborhoodAPI.Controllers
             return BadRequest(resulte);
         }
 
-        //[HttpPost("[action]")]
-        //public async Task<IActionResult> Register(RegisterDto registerDto)
-        //{
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Register(RegisterDto registerDto)
+        {
 
-        //    if (IsUserExistByEmail(registerDto.Email).Result.Value)
-        //        return BadRequest("This Email Is Already Exist");
+            if (IsUserExistByEmail(registerDto.Email).Result.Value)
+                return BadRequest("This Email Is Already Exist");
 
-        //    AppUser user = new()
-        //    {
-        //        UserName = registerDto.UserName,
-        //        Email = registerDto.Email
-        //    };
+            AppUser user = new()
+            {
+                UserName = registerDto.UserName,
+                Email = registerDto.Email
+            };
 
-        //    if (registerDto.PorfileImageUrl != null)
-        //    {
-        //        var fileResult = await Utilities.SaveFileAsync(registerDto.PorfileImageUrl, _imagePath);
+            if (registerDto.PorfileImageUrl != null)
+            {
+                var fileResult = await Utilities.SaveFileAsync(registerDto.PorfileImageUrl, _imagePath);
 
-        //        if (fileResult.Succeeded)
-        //            user.Image = fileResult.FileName;
-        //    }
-
-
-        //    var resulte = await _userServices.Register(registerDto);
-        //    if (resulte.IsSuccess)
-        //        return Ok(resulte);
-
-        //    return BadRequest(resulte);
+                if (fileResult.Succeeded)
+                    user.Image = fileResult.FileName;
+            }
 
 
-        //}
+            var resulte = await _userServices.Register(registerDto);
+            if (resulte.IsSuccess)
+                return Ok(resulte);
+
+            return BadRequest(resulte);
+
+
+        }
 
         [HttpGet("IsUserExist")]
         public async Task<ActionResult<bool>> IsUserExistByEmail(string Email)

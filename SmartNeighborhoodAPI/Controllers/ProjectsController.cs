@@ -25,11 +25,7 @@ namespace SmartNeighborhoodAPI.Controllers
                 return Ok(reulte);
 
             return BadRequest(reulte);
-            //var Project = _mapper.Map<Project>(projectDto);
-            //var result = await _ProjectRepository.AddAsync(Project);
-            //if (result <= 0)
-            //    return BadRequest(ApiResponse<string>.Error(500, "Failed To Add Project"));
-            //return Ok(ApiResponse<Project>.Success(Project));
+            
         }
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAllAsync()
