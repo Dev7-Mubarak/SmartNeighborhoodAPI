@@ -18,12 +18,12 @@ namespace SmartNeighborhoodAPI.Controllers
             _FamilyCatgoryService = FamilyCatgoryService;
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> AddAsync(FamilyCatgoryDto FamilyCatgoryDto)
+        public async Task<IActionResult> AddAsync(string nameFamilyCatgory)
         {
 
             if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-            var result = await _FamilyCatgoryService.AddAsync(FamilyCatgoryDto);
+            var result = await _FamilyCatgoryService.AddAsync(nameFamilyCatgory);
             if (result.IsSuccess)
                 return Ok(result);
             return BadRequest(result);
@@ -48,12 +48,12 @@ namespace SmartNeighborhoodAPI.Controllers
 
         }
         [HttpPut("[action]/{id:int}")]
-        public async Task<IActionResult> UpdateAsync(int id, FamilyCatgoryDto FamilyCatgoryDto)
+        public async Task<IActionResult> UpdateAsync(int id, string nameFamilyCatgory)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
 
-            var result = await _FamilyCatgoryService.UpdateAsync(id, FamilyCatgoryDto);
+            var result = await _FamilyCatgoryService.UpdateAsync(id, nameFamilyCatgory);
             if (result.IsSuccess)
                 return Ok(result);
             return BadRequest(result);

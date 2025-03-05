@@ -12,7 +12,12 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+
+
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<FamilyCatgoryService>();
+
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAutoMapper(typeof(Program));

@@ -12,65 +12,92 @@ namespace SmartNeighborhoodAPI.Services
             _context = context;
             _mapper = mapper;
         }
-        public async Task<ApiResponse<FamilyCatgoryDto>> AddAsync(FamilyCatgoryDto FamilyCatgoryDto)
+
+
+
+        public async Task<ApiResponse<IEnumerable<FamilyCatgoryDto>>> GetAll()
         {
-
-            var familyCatgory = _mapper.Map<FamilyCatgoryDto>(FamilyCatgoryDto);
-            var FamilyCatgory = _mapper.Map<FamilyCatgory>(familyCatgory);
-
-            await _context.AddAsync(FamilyCatgory);
-            if (await _context.SaveChangesAsync() > 0)
-                return ApiResponse<FamilyCatgoryDto>.Success(familyCatgory, "Added Successed");
-
-            return ApiResponse<FamilyCatgoryDto>.Error(HttpStatusCode.BadRequest, "FamilyCatgory not add");
-
-
-        }
-        public async Task<ApiResponse<string>> DeleteAsync(int id)
-        {
-            var entity = await GetByIdAsync(id);
-            if (entity == null)
-                return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "FamilyCatgory Not Found");
-
-            _context.Remove(entity);
-            if (await _context.SaveChangesAsync() > 0)
-                return ApiResponse<string>.Success("FamilyCatgory Deleted Successfully");
-
-            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Delete the FamilyCatgory");
-        }
-        public async Task<ApiResponse<IQueryable<FamilyCatgoryDto>>> GetAll()
-        {
-            var FamilyCatgorys = _context.FamilyCatgories.Include("").AsNoTracking().ToList();
+            var FamilyCatgorys = await _context.FamilyCatgories.AsNoTracking().ToListAsync();
             if (FamilyCatgorys.Count > 0)
             {
-                var FamilyCatgoryDtos = _mapper.Map<IQueryable<FamilyCatgoryDto>>(FamilyCatgorys);
-                return ApiResponse<IQueryable<FamilyCatgoryDto>>.Success(FamilyCatgoryDtos);
+
+
+
+                var FamilyCatgoryDtos = FamilyCatgorys.Select(x => new FamilyCatgoryDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+
+                });
+
+
+                return ApiResponse<IEnumerable<FamilyCatgoryDto>>.Success(FamilyCatgoryDtos);
+
+
             }
 
-            return ApiResponse<IQueryable<FamilyCatgoryDto>>.Error(HttpStatusCode.BadRequest, "No FamilyCatgory Found");
+            return ApiResponse<IEnumerable<FamilyCatgoryDto>>.Error(HttpStatusCode.BadRequest, "No FamilyCatgory Found");
 
 
 
         }
         public async Task<ApiResponse<FamilyCatgoryDto>> GetByIdAsync(int id)
         {
-            var FamilyCatgory = await _context.FamilyCatgories.Include("").AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var FamilyCatgory = await _context.FamilyCatgories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (FamilyCatgory == null)
                 return ApiResponse<FamilyCatgoryDto>.Error(HttpStatusCode.BadRequest, "FamilyCatgory Not Found");
 
 
-            var FamilyCatgoryDto = _mapper.Map<FamilyCatgoryDto>(FamilyCatgory);
+            var FamilyCatgoryDto = new FamilyCatgoryDto
+            {
+                Id = FamilyCatgory.Id,
+                Name = FamilyCatgory.Name,
+            };
             return ApiResponse<FamilyCatgoryDto>.Success(FamilyCatgoryDto);
         }
-        public async Task<ApiResponse<string>> UpdateAsync(int id, FamilyCatgoryDto FamilyCatgoryDto)
+        public async Task<ApiResponse<string>> AddAsync(string  nameFamilyCatgory)
+        {
+
+
+            var FamilyCatgory = new FamilyCatgory
+            {
+                Name = nameFamilyCatgory
+            };
+            
+
+            await _context.FamilyCatgories.AddAsync(FamilyCatgory);
+            if (await _context.SaveChangesAsync() > 0)
+                return ApiResponse<string>.Success(nameFamilyCatgory, "Added Successed");
+
+            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "FamilyCatgory not add");
+
+
+        }
+        public async Task<ApiResponse<string>> DeleteAsync(int id)
+        {
+            var FamilyCatgory = await _context.FamilyCatgories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            if (FamilyCatgory == null)
+                return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "FamilyCatgory Not Found");
+
+            _context.FamilyCatgories.Remove(FamilyCatgory);
+            if (await _context.SaveChangesAsync() > 0)
+                return ApiResponse<string>.Success("FamilyCatgory Deleted Successfully");
+
+            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Delete the FamilyCatgory");
+        }
+   
+        public async Task<ApiResponse<string>> UpdateAsync(int id, string nameFamilyCatgory)
         {
             var ExsitFamilyCatgory = await _context.FamilyCatgories.FirstOrDefaultAsync(x => x.Id == id);
 
             if (ExsitFamilyCatgory is null)
                 return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "FamilyCatgory Not Found");
-            var UpdateFamilyCatgory = _mapper.Map(FamilyCatgoryDto, ExsitFamilyCatgory);
 
-            _context.FamilyCatgories.Update(UpdateFamilyCatgory);
+
+            ExsitFamilyCatgory.Name = nameFamilyCatgory;  
+
+            _context.FamilyCatgories.Update(ExsitFamilyCatgory);
             if (await _context.SaveChangesAsync() > 0)
                 return ApiResponse<string>.Success("FamilyCatgory Updated Successfully");
 

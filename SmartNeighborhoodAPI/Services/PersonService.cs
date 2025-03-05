@@ -15,12 +15,12 @@ namespace SmartNeighborhoodAPI.Services
         public async Task<ApiResponse<PersonDto>> AddAsync(PersonDto PersonDto)
         {
 
-            var person = _mapper.Map<PersonDto>(PersonDto);
-            var Person = _mapper.Map<Person>(person);
+            var person = _mapper.Map<Person>(PersonDto);
+           
 
-            await _context.AddAsync(Person);
+            await _context.AddAsync(person);
             if (await _context.SaveChangesAsync() > 0)
-                return ApiResponse<PersonDto>.Success(person, "Added Successed");
+                return ApiResponse<PersonDto>.Success(PersonDto, "Added Successed");
 
             return ApiResponse<PersonDto>.Error(HttpStatusCode.BadRequest, "Person not add");
 
@@ -38,16 +38,16 @@ namespace SmartNeighborhoodAPI.Services
 
             return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Delete the Person");
         }
-        public async Task<ApiResponse<IQueryable<PersonDto>>> GetAll()
+        public async Task<ApiResponse<IEnumerable<PersonDto>>> GetAll()
         {
-            var Persons = _context.People.Include("").AsNoTracking().ToList();
-            if (Persons.Count > 0)
+            var Persons = _context.People.AsNoTracking().ToList();
+            if (Persons.Any())
             {
-                var PersonDtos = _mapper.Map<IQueryable<PersonDto>>(Persons);
-                return ApiResponse<IQueryable<PersonDto>>.Success(PersonDtos);
+                var PersonDtos = _mapper.Map<IEnumerable<PersonDto>>(Persons);
+                return ApiResponse<IEnumerable<PersonDto>>.Success(PersonDtos);
             }
 
-            return ApiResponse<IQueryable<PersonDto>>.Error(HttpStatusCode.BadRequest, "No Person Found");
+            return ApiResponse<IEnumerable<PersonDto>>.Error(HttpStatusCode.BadRequest, "No Person Found");
 
 
 
