@@ -92,19 +92,19 @@ namespace SmartNeighborhoodAPI.Services
             if (await _context.SaveChangesAsync() > 0)
                 return ApiResponse<string>.Success("FamilyCatgory Deleted Successfully");
 
-            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Delete the FamilyCatgory");
+            return ApiResponse<string>.Error(HttpStatusCode.NotModified, "Faild To Delete the FamilyCatgory");
         }
         public async Task<ApiResponse<string>> UpdateAsync(int id, string nameFamilyCatgory)
         {
             var ExsitFamilyCatgory = await _context.FamilyCatgories.FirstOrDefaultAsync(x => x.Id == id);
-            if(ExsitFamilyCatgory.Name == nameFamilyCatgory)
-            {
-                return ApiResponse<string>.Error(HttpStatusCode.Conflict, "FamilyCatgory Is Already Exist");
 
-            }
+
 
             if (ExsitFamilyCatgory is null)
                 return ApiResponse<string>.Error(HttpStatusCode.NotFound, "FamilyCatgory Not Found");
+
+            if (ExsitFamilyCatgory.Name == nameFamilyCatgory)
+                return ApiResponse<string>.Error(HttpStatusCode.Conflict, "FamilyCatgory Is Already Exist");
 
 
 
@@ -114,7 +114,8 @@ namespace SmartNeighborhoodAPI.Services
             if (await _context.SaveChangesAsync() > 0)
                 return ApiResponse<string>.Success("FamilyCatgory Updated Successfully");
 
-            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Update FamilyCatgory");
+
+            return ApiResponse<string>.Error(HttpStatusCode.NotModified, "Faild To Update FamilyCatgory");
 
 
         }
