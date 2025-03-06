@@ -5,7 +5,7 @@ namespace SmartNeighborhoodAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FamilyController : ControllerBase
+    public class FamilyController : AppControllerBase
     {
         private readonly FamilyService _FamilyService;
         
@@ -20,6 +20,8 @@ namespace SmartNeighborhoodAPI.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
+
+
             var result = await _FamilyService.AddAsync(FamilyDto);
             if (result.IsSuccess)
                 return Ok(result);
