@@ -8,12 +8,12 @@ namespace SmartNeighborhoodAPI.Controllers
     public class FamilyTypesController : ControllerBase
     {
         private readonly FamilyTypeService _FamilyTypeService;
-        
+
 
         public FamilyTypesController(FamilyTypeService FamilyTypeService)
         {
             _FamilyTypeService = FamilyTypeService;
-            
+
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(FamilyTypeDto FamilyTypeDto)
@@ -66,3 +66,6 @@ namespace SmartNeighborhoodAPI.Controllers
         }
     }
 }
+
+
+
