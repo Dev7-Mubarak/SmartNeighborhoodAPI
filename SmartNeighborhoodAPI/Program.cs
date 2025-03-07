@@ -17,6 +17,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<PersonService>();
 builder.Services.AddScoped<FamilyCatgoryService>();
+builder.Services.AddScoped<FamilyTypeService>();
 
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
