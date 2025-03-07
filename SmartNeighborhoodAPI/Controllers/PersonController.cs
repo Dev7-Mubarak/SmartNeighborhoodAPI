@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SmartNeighborhoodAPI.Helpers;
-using SmartNeighborhoodAPI.Helpers.DTOs;
-
-namespace SmartNeighborhoodAPI.Controllers
+﻿namespace SmartNeighborhoodAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ControllerBase
     {
         private readonly PersonService _PersonService;
-        
+
 
         public PersonController(PersonService PersonService)
         {
@@ -18,9 +14,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(PersonDto PersonDto)
         {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
             var result = await _PersonService.AddAsync(PersonDto);
             if (result.IsSuccess)
                 return Ok(result);
@@ -48,9 +41,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPut("[action]/{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, PersonDto PersonDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
             var result = await _PersonService.UpdateAsync(id, PersonDto);
             if (result.IsSuccess)
                 return Ok(result);

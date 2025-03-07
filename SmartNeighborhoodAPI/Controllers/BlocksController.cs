@@ -13,10 +13,6 @@
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(BlockDto BlockDto)
         {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
             var result = await _BlockServices.AddAsync(BlockDto);
             if (result.IsSuccess)
                 return Ok(result);
@@ -45,8 +41,6 @@
         [HttpPut("[action]/{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, BlockDto BlockDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
 
             var result = await _BlockServices.UpdateAsync(id, BlockDto);
             if (result.IsSuccess)

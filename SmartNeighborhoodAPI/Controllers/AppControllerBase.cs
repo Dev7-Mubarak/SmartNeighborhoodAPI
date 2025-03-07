@@ -3,14 +3,12 @@
 namespace SmartNeighborhoodAPI.Controllers
 {
     [ApiController]
+    [ValidateActionFilter]
     [Route("api/[controller]")]
     public class AppControllerBase : ControllerBase
     {
         public new ObjectResult Response<T>(ApiResponse<T> response)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
             return response.StatusCode switch
             {
                 HttpStatusCode.OK => new OkObjectResult(response),

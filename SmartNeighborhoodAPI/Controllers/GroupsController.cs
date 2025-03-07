@@ -1,28 +1,22 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace SmartNeighborhoodAPI.Controllers
+﻿namespace SmartNeighborhoodAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase
     {
         private readonly GroupService _GroupService;
-        
+
 
 
         public GroupsController(GroupService GroupService)
         {
             _GroupService = GroupService;
-            
-              
+
+
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(GroupDto GroupDto)
         {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
             var result = await _GroupService.AddAsync(GroupDto);
             if (result.IsSuccess)
                 return Ok(result);
@@ -50,9 +44,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPut("[action]/{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, GroupDto GroupDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
             var result = await _GroupService.UpdateAsync(id, GroupDto);
             if (result.IsSuccess)
                 return Ok(result);

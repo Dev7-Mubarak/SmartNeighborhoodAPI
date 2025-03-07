@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace SmartNeighborhoodAPI.Controllers
+﻿namespace SmartNeighborhoodAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class FamilyController : AppControllerBase
     {
         private readonly FamilyService _FamilyService;
-        
+
 
         public FamilyController(FamilyService FamilyService)
         {
@@ -17,10 +14,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(FamilyDto FamilyDto)
         {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
 
             var result = await _FamilyService.AddAsync(FamilyDto);
             if (result.IsSuccess)
@@ -49,9 +42,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPut("[action]/{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, FamilyDto FamilyDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
             var result = await _FamilyService.UpdateAsync(id, FamilyDto);
             if (result.IsSuccess)
                 return Ok(result);
