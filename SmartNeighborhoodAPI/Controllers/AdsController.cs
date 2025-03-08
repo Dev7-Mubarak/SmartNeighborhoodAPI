@@ -1,9 +1,4 @@
-﻿
-
-
-using SmartNeighborhoodAPI.Helpers;
-
-namespace SmartNeighborhoodAPI.Controllers
+﻿namespace SmartNeighborhoodAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,13 +9,11 @@ namespace SmartNeighborhoodAPI.Controllers
         public AdsController(AdsService AdsService)
         {
             _AdsService = AdsService;
-            
+
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(AdDto AdDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
             var result = await _AdsService.AddAsync(AdDto);
             if (result.IsSuccess)
                 return Ok(result);
@@ -48,8 +41,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPut("[action]/{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, AdDto AdDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
 
             var result = await _AdsService.UpdateAsync(id, AdDto);
             if (result.IsSuccess)

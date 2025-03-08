@@ -18,11 +18,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-            }
-
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null)
             {

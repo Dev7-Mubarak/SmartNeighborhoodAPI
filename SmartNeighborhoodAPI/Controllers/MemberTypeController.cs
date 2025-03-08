@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace SmartNeighborhoodAPI.Controllers
+﻿namespace SmartNeighborhoodAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -9,7 +6,7 @@ namespace SmartNeighborhoodAPI.Controllers
     {
         private readonly BlockServices _BlockServices;
 
-        
+
 
         public MemberTypeController(BlockServices BlockServices)
         {
@@ -18,9 +15,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(BlockDto BlockDto)
         {
-
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
             var result = await _BlockServices.AddAsync(BlockDto);
             if (result.IsSuccess)
                 return Ok(result);
@@ -48,9 +42,6 @@ namespace SmartNeighborhoodAPI.Controllers
         [HttpPut("[action]/{id:int}")]
         public async Task<IActionResult> UpdateAsync(int id, BlockDto BlockDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
-
             var result = await _BlockServices.UpdateAsync(id, BlockDto);
             if (result.IsSuccess)
                 return Ok(result);
