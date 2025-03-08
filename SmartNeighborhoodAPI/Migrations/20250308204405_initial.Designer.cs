@@ -12,8 +12,8 @@ using SmartNeighborhoodAPI;
 namespace SmartNeighborhoodAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250304231856_inital")]
-    partial class inital
+    [Migration("20250308204405_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,7 +225,7 @@ namespace SmartNeighborhoodAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BlockId")
+                    b.Property<int?>("BlockId")
                         .HasColumnType("int");
 
                     b.Property<int>("FamilyCatgoryId")
@@ -239,6 +239,10 @@ namespace SmartNeighborhoodAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -571,9 +575,7 @@ namespace SmartNeighborhoodAPI.Migrations
                 {
                     b.HasOne("OurProjectSmartNeiborhood.Entites.Block", "Block")
                         .WithMany()
-                        .HasForeignKey("BlockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BlockId");
 
                     b.HasOne("OurProjectSmartNeiborhood.Entites.FamilyCatgory", "FamilyCatgory")
                         .WithMany("Families")

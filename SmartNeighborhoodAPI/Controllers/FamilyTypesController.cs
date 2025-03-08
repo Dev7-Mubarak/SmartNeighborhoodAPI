@@ -12,12 +12,13 @@
             _FamilyTypeService = FamilyTypeService;
 
         }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> AddAsync(string nameFamilyTypeDto)
         {
 
             if (!ModelState.IsValid)
-                return BadRequest(ValidationHelper.CreateErrorResponse(ModelState));
+                return BadRequest("");
 
 
             var result = await _FamilyTypeService.AddAsync(nameFamilyTypeDto);

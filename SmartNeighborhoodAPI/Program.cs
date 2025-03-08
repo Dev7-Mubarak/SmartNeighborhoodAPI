@@ -18,6 +18,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<PersonService>();
 builder.Services.AddScoped<FamilyCatgoryService>();
 builder.Services.AddScoped<FamilyTypeService>();
+builder.Services.AddScoped<FamilyService>();
 
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
