@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartNeighborhoodAPI.Migrations
 {
-    public partial class inital : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -302,11 +302,12 @@ namespace SmartNeighborhoodAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FamilyCatgoryId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FamilyTypeId = table.Column<int>(type: "int", nullable: false),
                     FamilyNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BlockId = table.Column<int>(type: "int", nullable: false)
+                    FamilyCatgoryId = table.Column<int>(type: "int", nullable: false),
+                    FamilyTypeId = table.Column<int>(type: "int", nullable: false),
+                    BlockId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -315,8 +316,7 @@ namespace SmartNeighborhoodAPI.Migrations
                         name: "FK_Families_Blocks_BlockId",
                         column: x => x.BlockId,
                         principalTable: "Blocks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Families_FamilyCatgories_FamilyCatgoryId",
                         column: x => x.FamilyCatgoryId,

@@ -1,82 +1,108 @@
 ﻿using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartNeighborhoodAPI.Services
 {
     public class FamilyService
     {
         private readonly ApplicationDbContext _context;
-        readonly IMapper _mapper;
 
-        public FamilyService(ApplicationDbContext context, IMapper mapper)
+        public FamilyService(ApplicationDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
-        public async Task<ApiResponse<FamilyDto>> AddAsync(FamilyDto FamilyDto)
+
+        public async Task<ApiResponse<FamilyDto>> AddAsync(FamilyDto familyDto)
         {
+            var family = new Family
+            {
+                Name = familyDto.Name,
+                FamilyCatgoryId = familyDto.FamilyCatgoryId,
+                Location = familyDto.Location,
+                FamilyNotes = familyDto.FamilyNotes,
+                FamilyTypeId = familyDto.FamilyTypeId,
+               
+            };
 
-            var famliy = _mapper.Map<FamilyDto>(FamilyDto);
-            var Family = _mapper.Map<Family>(famliy);
-
-            await _context.AddAsync(Family);
+            await _context.Families.AddAsync(family);
             if (await _context.SaveChangesAsync() > 0)
-                return ApiResponse<FamilyDto>.Success(famliy, "Added Successed");
+                return ApiResponse<FamilyDto>.Success(familyDto, "Added Successfully");
 
-            return ApiResponse<FamilyDto>.Error(HttpStatusCode.BadRequest, "Block not add");
-
-
+            return ApiResponse<FamilyDto>.Error(HttpStatusCode.BadRequest, "Failed to add family");
         }
+
         public async Task<ApiResponse<string>> DeleteAsync(int id)
         {
-            var entity = await GetByIdAsync(id);
+            var entity = await _context.Families.FindAsync(id);
             if (entity == null)
-                return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Block Not Found");
+                return ApiResponse<string>.Error(HttpStatusCode.NotFound, "Family Not Found");
 
-            _context.Remove(entity);
+            _context.Families.Remove(entity);
             if (await _context.SaveChangesAsync() > 0)
-                return ApiResponse<string>.Success("Block Deleted Successfully");
+                return ApiResponse<string>.Success("Family Deleted Successfully");
 
-            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Delete the Block");
+            return ApiResponse<string>.Error(HttpStatusCode.NotModified, "Failed To Delete the Family");
         }
-        public async Task<ApiResponse<IQueryable<FamilyDto>>> GetAll()
+
+        public async Task<ApiResponse<IEnumerable<FamilyDto>>> GetAll()
         {
-            var Family = _context.Families.Include("").AsNoTracking().ToList();
-            if (Family.Count > 0)
+            var families = await _context.Families.AsNoTracking().ToListAsync();
+            if (families.Count > 0)
             {
-                var FamilyDtos = _mapper.Map<IQueryable<FamilyDto>>(Family);
-                return ApiResponse<IQueryable<FamilyDto>>.Success(FamilyDtos);
+                var familyDtos = families.Select(f => new FamilyDto
+                {
+                    Name = f.Name,
+                    FamilyCatgoryId = f.FamilyCatgoryId,
+                    Location = f.Location,
+                    FamilyNotes = f.FamilyNotes,
+                    FamilyTypeId = f.FamilyTypeId,
+                   
+                }).ToList();
+
+                return ApiResponse<IEnumerable<FamilyDto>>.Success(familyDtos);
             }
 
-            return ApiResponse<IQueryable<FamilyDto>>.Error(HttpStatusCode.BadRequest, "No Block Found");
-
-
-
+            return ApiResponse<IEnumerable<FamilyDto>>.Error(HttpStatusCode.NotFound, "No Families Found");
         }
+
         public async Task<ApiResponse<FamilyDto>> GetByIdAsync(int id)
         {
-            var family = await _context.Families.Include("").AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var family = await _context.Families.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (family == null)
-                return ApiResponse<FamilyDto>.Error(HttpStatusCode.BadRequest, "Block Not Found");
+                return ApiResponse<FamilyDto>.Error(HttpStatusCode.NotFound, "Family Not Found");
 
+            var familyDto = new FamilyDto
+            {
+                Name = family.Name,
+                FamilyCatgoryId = family.FamilyCatgoryId,
+                Location = family.Location,
+                FamilyNotes = family.FamilyNotes,
+                FamilyTypeId = family.FamilyTypeId,
+               
+            };
 
-            var FamilyDto = _mapper.Map<FamilyDto>(family);
-            return ApiResponse<FamilyDto>.Success(FamilyDto);
+            return ApiResponse<FamilyDto>.Success(familyDto);
         }
-        public async Task<ApiResponse<string>> UpdateAsync(int id, FamilyDto FamilyDto)
+
+        public async Task<ApiResponse<string>> UpdateAsync(int id, FamilyDto familyDto)
         {
-            var ExsitBlock = await _context.Families.FirstOrDefaultAsync(x => x.Id == id);
+            var existingFamily = await _context.Families.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (ExsitBlock is null)
-                return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Block Not Found");
-            var UpdateBlock = _mapper.Map(FamilyDto, ExsitBlock);
+            if (existingFamily is null)
+                return ApiResponse<string>.Error(HttpStatusCode.NotFound, "Family Not Found");
 
-            _context.Families.Update(UpdateBlock);
+            existingFamily.Name = familyDto.Name;
+            existingFamily.FamilyCatgoryId = familyDto.FamilyCatgoryId;
+            existingFamily.Location = familyDto.Location;
+            existingFamily.FamilyNotes = familyDto.FamilyNotes;
+            existingFamily.FamilyTypeId = familyDto.FamilyTypeId;
+          
+
+            _context.Families.Update(existingFamily);
             if (await _context.SaveChangesAsync() > 0)
-                return ApiResponse<string>.Success("Block Updated Successfully");
+                return ApiResponse<string>.Success("Family Updated Successfully");
 
-            return ApiResponse<string>.Error(HttpStatusCode.BadRequest, "Faild To Update Block");
-
-
+            return ApiResponse<string>.Error(HttpStatusCode.NotModified, "Failed To Update Family");
         }
     }
 }
